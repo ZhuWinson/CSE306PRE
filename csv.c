@@ -75,9 +75,9 @@ int main(int argc, char * argv[])
                 char buffer[1024];
 
                 while (fgets(buffer, 1024, file)){
-                    row++;
+                    rows++;
                 }
-                printf("%d\n", row);
+                printf("%d\n", rows);
                 return EXIT_SUCCESS;
             }
 
@@ -94,3 +94,41 @@ int main(int argc, char * argv[])
     fclose(file);
     return EXIT_FAILURE;
 }
+
+//h 
+
+void call_h(FILE *file, char *targetField) {
+    char buffer[1024];
+    char *headerFields[1024];
+    int fieldIndex = -1; //track column index
+
+    // read the first line (header row)
+    if (fgets(buffer, sizeof(buffer), file)) {
+        int i = 0;
+        char *value = strtok(buffer, ",\n");
+
+        // goes through headers
+        while (value) {
+            headerFields[i] = value;
+            if (strcmp(headerFields[i], targetField) == 0) {
+                fieldIndex = i;
+            }
+            i++;
+            value = strtok(NULL, ",\n");
+        }
+    }
+
+    // after field is found it will snatch the column values
+    if (fieldIndex != -1) {  //header
+        while (fgets(buffer, sizeof(buffer), file)) { //make space
+            char *value = strtok(buffer, ",\n");
+            for (int i = 0; i < fieldIndex; i++) { //harvest the info 
+                value = strtok(NULL, ",\n");
+            }
+            if (value) {
+                printf("%s\n", value);
+            }
+        }
+    } 
+}
+//use call_h(file, argv[i+1])]
