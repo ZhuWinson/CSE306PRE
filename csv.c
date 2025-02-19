@@ -4,6 +4,45 @@
 
 //Note: LEX02 has some help for files
 
+//-h helper function
+
+void call_h(FILE *file, char *targetField) {
+    char buffer[1024];
+     //space for header fields
+    char *headerFields[1024];
+     //track field index
+    int fieldIndex = -1;
+
+    // Read the first line (header row)
+    if (fgets(buffer, sizeof(buffer), file)) {
+        int i = 0;
+        char *value = strtok(buffer, ",\n");
+
+        // compare fields
+        while (value) {
+            headerFields[i] = value;
+            if (strcmp(headerFields[i], targetField) == 0) {
+                fieldIndex = i;
+            }
+            i++;
+            value = strtok(NULL, ",\n");
+        }
+    }
+
+    // get the wanted fields values
+    if (fieldIndex != -1) {
+        while (fgets(buffer, sizeof(buffer), file)) {
+            char *value = strtok(buffer, ",\n");
+            for (int i = 0; i < fieldIndex; i++) {
+                value = strtok(NULL, ",\n");
+            }
+            if (value) {
+                printf("%s\n", value);
+            }
+        }
+    }
+}
+
 int main(int argc, char * argv[])
 {
 
@@ -69,6 +108,13 @@ int main(int argc, char * argv[])
                 return EXIT_SUCCESS;
             }
 
+		// -h
+            if (strcmp(argv[i], "-h") == 0) {
+                call_h(file, argv[i + 1]); //(file & fieldname)
+                fclose(file);
+                return EXIT_SUCCESS;
+            }
+
             // -r
             else if ( strcmp(argv[i], "-r") == 0){
                 int rows = 0;
@@ -90,45 +136,6 @@ int main(int argc, char * argv[])
             
             i++;
             }
-    }
-    fclose(file);
-    return EXIT_FAILURE;
+
+	}
 }
-
-//h 
-
-void call_h(FILE *file, char *targetField) {
-    char buffer[1024];
-    char *headerFields[1024];
-    int fieldIndex = -1; //track column index
-
-    // read the first line (header row)
-    if (fgets(buffer, sizeof(buffer), file)) {
-        int i = 0;
-        char *value = strtok(buffer, ",\n");
-
-        // goes through headers
-        while (value) {
-            headerFields[i] = value;
-            if (strcmp(headerFields[i], targetField) == 0) {
-                fieldIndex = i;
-            }
-            i++;
-            value = strtok(NULL, ",\n");
-        }
-    }
-
-    // after field is found it will snatch the column values
-    if (fieldIndex != -1) {  //header
-        while (fgets(buffer, sizeof(buffer), file)) { //make space
-            char *value = strtok(buffer, ",\n");
-            for (int i = 0; i < fieldIndex; i++) { //harvest the info 
-                value = strtok(NULL, ",\n");
-            }
-            if (value) {
-                printf("%s\n", value);
-            }
-        }
-    } 
-}
-//use call_h(file, argv[i+1])]
