@@ -1,47 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 //Note: LEX02 has some help for files
 
-//-h helper function
 
-void call_h(FILE *file, char *targetField) {
-    char buffer[1024];
-     //space for header fields
-    char *headerFields[1024];
-     //track field index
-    int fieldIndex = -1;
 
-    // Read the first line (header row)
-    if (fgets(buffer, sizeof(buffer), file)) {
-        int i = 0;
-        char *value = strtok(buffer, ",\n");
 
-        // compare fields
-        while (value) {
-            headerFields[i] = value;
-            if (strcmp(headerFields[i], targetField) == 0) {
-                fieldIndex = i;
-            }
-            i++;
-            value = strtok(NULL, ",\n");
-        }
-    }
-
-    // get the wanted fields values
-    if (fieldIndex != -1) {
-        while (fgets(buffer, sizeof(buffer), file)) {
-            char *value = strtok(buffer, ",\n");
-            for (int i = 0; i < fieldIndex; i++) {
-                value = strtok(NULL, ",\n");
-            }
-            if (value) {
-                printf("%s\n", value);
-            }
-        }
-    }
-}
+void call_h(FILE *file, char *targetField);
 
 int main(int argc, char * argv[])
 {
@@ -67,7 +34,7 @@ int main(int argc, char * argv[])
         }
 
     if (argc >= 2){
-        
+
         //e.g -min field, -max field, -mean field
         char* field;
         int i = 1;
@@ -108,8 +75,16 @@ int main(int argc, char * argv[])
                 return EXIT_SUCCESS;
             }
 
-		// -h
+                // -h
             if (strcmp(argv[i], "-h") == 0) {
+
+                //if user inputs the (the numeric positional option) of field instead of the (title of the corresponding field)
+                //function should return EXIT_FAILURE
+                //isdigit() checks if a string can be converted into an integer
+                if (!isdigit(argv[i + 2]) || (i + 2 >= argc-1)){
+                    return EXIT_FAILURE;
+                }
+
                 call_h(file, argv[i + 1]); //(file & fieldname)
                 fclose(file);
                 return EXIT_SUCCESS;
@@ -133,9 +108,48 @@ int main(int argc, char * argv[])
                 printf("Undefined\n");
                 return EXIT_FAILURE;
             }
-            
+
             i++;
             }
 
-	}
+        }
+}
+
+//-h helper function
+
+void call_h(FILE *file, char *targetField) {
+    char buffer[1024];
+     //space for header fields
+    char *headerFields[1024];
+     //track field index
+    int fieldIndex = -1;
+
+    // Read the first line (header row)
+    if (fgets(buffer, sizeof(buffer), file)) {
+        int i = 0;
+        char *value = strtok(buffer, ",\n");
+
+        // compare fields
+        while (value) {
+            headerFields[i] = value;
+            if (strcmp(headerFields[i], targetField) == 0) {
+                fieldIndex = i;
+            }
+            i++;
+            value = strtok(NULL, ",\n");
+        }
+    }
+
+    // get the wanted fields values
+    if (fieldIndex != -1) {
+        while (fgets(buffer, sizeof(buffer), file)) {
+            char *value = strtok(buffer, ",\n");
+            for (int i = 0; i < fieldIndex; i++) {
+                value = strtok(NULL, ",\n");
+            }
+            if (value) {
+                printf("%s\n", value);
+            }
+        }
+    }
 }

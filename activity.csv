@@ -3,4 +3,5 @@ DATE,UBIT,Duration,Activity and Tool Description
 ????,winsonzh,30 minutes,"Set up the basics of the PRE like csv.c, activity.csv, and importing the sample csv using emacs and git"
 2/16/2025,jeforget,1 hour,"Set up basic functionality of -f flag. Added an else that will catch undefined behavior. I also modified the activity file to format it a bit differently."
 2/16/2025,morohunf,1 hour 30 minutes, "Set up basic funtionality of -r flag. Improved programs capability to run different command-line arguments at once e.g. %csv -f -r file_name.csv." 
-2/19/2025,marieleo,1 hour 40 minutes, "Set up helper function for -h flag. Main includes checking for -h and then calling it."  
+2/19/2025,marieleo,1 hour 40 minutes, "Set up helper function for -h flag. Main includes checking for -h and then calling it."
+2/20/20265,morohunf,10 minutes, "Added a new condition that catches irregular/incorrect use of -h flag in command line operation."
