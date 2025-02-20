@@ -4,4 +4,5 @@ DATE,UBIT,Duration,Activity and Tool Description
 2/16/2025,jeforget,1 hour,"Set up basic functionality of -f flag. Added an else that will catch undefined behavior. I also modified the activity file to format it a bit differently."
 2/16/2025,morohunf,1 hour 30 minutes, "Set up basic funtionality of -r flag. Improved programs capability to run different command-line arguments at once e.g. %csv -f -r file_name.csv." 
 2/19/2025,marieleo,1 hour 40 minutes, "Set up helper function for -h flag. Main includes checking for -h and then calling it."
-2/20/20265,morohunf,10 minutes, "Added a new condition that catches irregular/incorrect use of -h flag in command line operation."
+2/20/2025,morohunf,10 minutes, "Added a new condition that catches irregular/incorrect use of -h flag in command line operation."
+2/20/2025,winsonzh,1 hour, "Started on -min, then set up code to get information to complete the flag such as finding out # of rows and columns in csv. Also starting to copy content from csv into 2D array"
