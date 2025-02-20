@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 
 //Note: LEX02 has some help for files
 
-
-
+//Globals for number of rows and columns in csv
+int csvColumns = 0;
+int csvRows = 0;
 
 void call_h(FILE *file, char *targetField);
 
@@ -32,7 +34,28 @@ int main(int argc, char * argv[])
             printf("Error opening file\n");
             return EXIT_FAILURE;
         }
-
+    
+    //Char buffer to store the contents of the csv file
+    char buffer[1024];
+    while(fgets(buffer, 1024, file))
+    {
+        csvRows++;
+        //We only care about row 1
+        if (csvRows == 1)
+            {
+            //Split on commas
+            char* value = strtok(buffer, ", ");
+            //Count the number of fields
+            while(value)
+                {
+                   value = strtok(NULL, ", ");
+                   csvColumns++;
+                }
+            }
+    }
+    //Create a 2D array that has all values from CSV
+    char csvFile[csvRows][csvColumns];
+    
     if (argc >= 2){
 
         //e.g -min field, -max field, -mean field
@@ -41,45 +64,21 @@ int main(int argc, char * argv[])
         while (i < argc-1){
             // -f
             char* ef = "-f";
-            if ( strcmp(argv[i], ef) == 0){
-                //keeps count of the fields
-                int columns = 0;
-                //keeps count of the rows
-                int rows = 0;
-                //char buffer to store the contents of the csv file
-                char buffer[1024];
+            if (strcmp(argv[i], ef) == 0){
+                //Print the number of fields
+                printf("%d\n",csvColumns);
 
-                while(fgets(buffer, 1024, file)){
-                    rows++;
-
-                    //we only care about row 1
-                    if (rows == 1){
-                        //split on commas
-                        char* value = strtok(buffer, ", ");
-
-                        //count the number of fields
-                        while(value){
-                            value = strtok(NULL, ", ");
-                            columns++;
-                        }
-                    }
-                }
-
-                //print the number of fields
-                printf("%d\n",columns);
-
-                //close the file
+                //Close the file
                 fclose(file);
 
-                //exit
+                //Exit
                 return EXIT_SUCCESS;
             }
 
                 // -h
-            if (strcmp(argv[i], "-h") == 0) {
-
-                //if user inputs the (the numeric positional option) of field instead of the (title of the corresponding field)
-                //function should return EXIT_FAILURE
+            if (strcmp(argv[i], "-h") == 0){
+                //If user inputs the (the numeric positional option) of field instead of the (title of the corresponding field)
+                //Function should return EXIT_FAILURE
                 //isdigit() checks if a string can be converted into an integer
                 if (!isdigit(argv[i + 2]) || (i + 2 >= argc-1)){
                     return EXIT_FAILURE;
@@ -98,9 +97,25 @@ int main(int argc, char * argv[])
                 while (fgets(buffer, 1024, file)){
                     rows++;
                 }
-                printf("%d\n", rows);
+                printf("%d\n", csvRows);
                 return EXIT_SUCCESS;
             }
+
+            // -min
+            else if (strcmp(argv[i], "-min") == 0)
+                {
+                    //Move i over to field and set field to the number
+                    i++;
+                    int field = atoi(argv[i]);
+                    //Set a min and a flag to see if numeric data has been encountered
+                    int min = INT_MIN;
+                    int numeric = 0;
+                    //Loop through specified field
+                    for(int currentRow = 0; currentRow < csvRows; currentRow++)
+                        {
+                            
+                        }
+                }
 
             // temp response
             else
@@ -119,17 +134,17 @@ int main(int argc, char * argv[])
 
 void call_h(FILE *file, char *targetField) {
     char buffer[1024];
-     //space for header fields
+    //Space for header fields
     char *headerFields[1024];
-     //track field index
+     //Track field index
     int fieldIndex = -1;
 
-    // Read the first line (header row)
+    //Read the first line (header row)
     if (fgets(buffer, sizeof(buffer), file)) {
         int i = 0;
         char *value = strtok(buffer, ",\n");
 
-        // compare fields
+        //Compare fields
         while (value) {
             headerFields[i] = value;
             if (strcmp(headerFields[i], targetField) == 0) {
@@ -140,7 +155,7 @@ void call_h(FILE *file, char *targetField) {
         }
     }
 
-    // get the wanted fields values
+    //Get the wanted fields values
     if (fieldIndex != -1) {
         while (fgets(buffer, sizeof(buffer), file)) {
             char *value = strtok(buffer, ",\n");
