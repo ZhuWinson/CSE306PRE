@@ -55,6 +55,21 @@ int main(int argc, char * argv[])
     }
     //Create a 2D array that has all values from CSV
     char csvFile[csvRows][csvColumns];
+    int r = 0;
+    rewind(file);
+    //Copy in values
+    while(fgets(buffer, 1024, file))
+        {
+            int c = 0;
+            char* value = strtok(buffer, ", ");
+            while(value != NULL)
+                {
+                    csvFile[r][c] = value;
+                    value = strtok(NULL, ", ");
+                    c++;
+                }
+            r++;
+        }
     
     if (argc >= 2){
 
@@ -101,20 +116,46 @@ int main(int argc, char * argv[])
                 return EXIT_SUCCESS;
             }
 
-            // -min
+// -min
             else if (strcmp(argv[i], "-min") == 0)
                 {
                     //Move i over to field and set field to the number
                     i++;
                     int field = atoi(argv[i]);
                     //Set a min and a flag to see if numeric data has been encountered
-                    int min = INT_MIN;
+                    int min = INT_MAX;
                     int numeric = 0;
                     //Loop through specified field
                     for(int currentRow = 0; currentRow < csvRows; currentRow++)
                         {
-                            
+                            int fieldValue = atoi(csvFile[currentRow][field]);
+                            if(fieldValue < min)
+                                {
+                                    min = fieldValue;
+                                }
                         }
+                    printf("%d\n", min);
+                }
+
+            // -max
+            else if (strcmp(argv[i], "-max") == 0)
+                {
+                    //Move i over to field and set field to the number
+                    i++;
+                    int field = atoi(argv[i]);
+                    //Set a max and a flag to see if numeric data has been encountered
+                    int max = INT_MIN;
+                    int numeric = 0;
+                    //Loop through specified field
+                    for(int currentRow = 0; currentRow < csvRows; currentRow++)
+                        {
+                            int fieldValue = atoi(csvFile[currentRow][field]);
+                            if(max < fieldValue)
+                                {
+                                    max = fieldValue;
+                                }
+                        }
+                    printf("%d\n", max);
                 }
 
             // temp response
