@@ -6,4 +6,4 @@ DATE,UBIT,Duration,Activity and Tool Description
 2/19/2025,marieleo,1 hour 40 minutes, "Set up helper function for -h flag. Main includes checking for -h and then calling it."
 2/20/2025,morohunf,10 minutes, "Added a new condition that catches irregular/incorrect use of -h flag in command line operation."
 2/20/2025,winsonzh,1 hour, "Started on -min and then set up code to get information to complete the flag such as finding out # of rows and columns in csv. Also starting to copy content from csv into 2D array with emacs. Tested with gdb"
-2/20/2025.winsonzh,2 hours, "Copied csv contents into a 2D array to use for flags such as -min and -max and wrote the basics for both with emacs. Tested with gdb"
+2/20/2025,winsonzh,2 hours, "Copied csv contents into a 2D array to use for flags such as -min and -max and wrote the basics for both with emacs. Tested with gdb"
