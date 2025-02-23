@@ -95,7 +95,7 @@ int main(int argc, char * argv[])
                 //If user inputs the (the numeric positional option) of field instead of the (title of the corresponding field)
                 //Function should return EXIT_FAILURE
                 //isdigit() checks if a string can be converted into an integer
-                if (!isdigit(argv[i + 2]) || (i + 2 >= argc-1)){
+                if (!isdigit(atoi(argv[i + 2])) || (i + 2 >= argc-1)){
                     return EXIT_FAILURE;
                 }
 
