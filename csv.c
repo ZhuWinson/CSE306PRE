@@ -54,7 +54,7 @@ int main(int argc, char * argv[])
             }
     }
     //Create a 2D array that has all values from CSV
-    char csvFile[csvRows][csvColumns];
+    char* csvFile[csvRows][csvColumns];
     int r = 0;
     rewind(file);
     //Copy in values
