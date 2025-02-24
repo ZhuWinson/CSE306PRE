@@ -9,3 +9,4 @@ DATE,UBIT,Duration,Activity and Tool Description
 2/20/2025,winsonzh,2 hours, "Copied csv contents into a 2D array to use for flags such as -min and -max and wrote the basics for both with emacs. Tested with gdb"
 2/23/2025,jeforget,20 minutes,"Looked over csv.c, tested in gdb and chnaged line 98 of csv.c to fix an error where a char * was being passed when an int was needed."
 2/24/2025,jeforget,50 minutes,"Began adding -records functionality to csv.c. Starting off without -h. Currently causes a seg fault when you try to run -records, I will look into this once I have more time."
+2/24/2025,winsonzh,1 hour, "Fixed copying code and finished -min and -max without headers using emacs and gdb"
