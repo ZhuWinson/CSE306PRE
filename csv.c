@@ -118,7 +118,7 @@ int main(int argc, char * argv[])
                 return EXIT_SUCCESS;
             }
 
-// -min
+            // -min
             else if (strcmp(argv[i], "-min") == 0)
                 {
                     //Move i over to field and set field to the number
@@ -130,34 +130,65 @@ int main(int argc, char * argv[])
                     //Loop through specified field
                     for(int currentRow = 0; currentRow < csvRows; currentRow++)
                         {
-                            int fieldValue = atoi(csvFile[currentRow][field]);
-                            if(fieldValue < min)
+                            char* currentValue = csvFile[currentRow][field];
+                            int numValue = atoi(currentValue);
+                            //Check if it is a number
+                            if(numValue == 0 && currentValue[0] != '0')
                                 {
-                                    min = fieldValue;
+                                    continue;
+                                }
+                            else
+                                {
+                                    //Set flag for number has been seen
+                                    numeric = 1;
+                                    if(numValue < min)
+                                        {
+                                            min = numValue;
+                                        }
                                 }
                         }
-                    printf("%d\n", min);
+                    if(numeric == 1)
+                        {
+                            printf("%d\n", min);
+                            return EXIT_SUCCESS;
+                        }
+                    return EXIT_FAILURE;
                 }
-
             // -max
             else if (strcmp(argv[i], "-max") == 0)
                 {
                     //Move i over to field and set field to the number
                     i++;
                     int field = atoi(argv[i]);
-                    //Set a max and a flag to see if numeric data has been encountered
+                    //Set a min and a flag to see if numeric data has been encountered
                     int max = INT_MIN;
                     int numeric = 0;
                     //Loop through specified field
                     for(int currentRow = 0; currentRow < csvRows; currentRow++)
                         {
-                            int fieldValue = atoi(csvFile[currentRow][field]);
-                            if(max < fieldValue)
+                            char* currentValue = csvFile[currentRow][field];
+                            int numValue = atoi(currentValue);
+                            //Check if it is a number
+                            if(numValue == 0 && currentValue[0] != '0')
                                 {
-                                    max = fieldValue;
+                                    continue;
+                                }
+                            else
+                                {
+                                    //Set flag for number has been seen
+                                    numeric = 1;
+                                    if(numValue > max)
+                                        {
+                                            max = numValue;
+                                        }
                                 }
                         }
-                    printf("%d\n", max);
+                    if(numeric == 1)
+                        {
+                            printf("%d\n", max);
+                            return EXIT_SUCCESS;
+                        }
+                    return EXIT_FAILURE;
                 }
             // -records field value 
             // for now this is WITHOUT -h
