@@ -157,6 +157,32 @@ int main(int argc, char * argv[])
                         }
                     printf("%d\n", max);
                 }
+            // -records field value 
+            // for now this is WITHOUT -h
+            //currently causing a seg fault somewhere!
+            else if (strcmp(argv[i], "-records") == 0)
+                {
+                    // increment i to get the field, then again to get the value
+                    i++;
+                    int field = atoi(argv[i]);
+                    printf("Field = %i", field);
+                    i++;
+                    char * value = argv[i];
+                    printf("Value = %s", value);
+                    // loop through field
+                    // if this field has the value, print it
+                    for(int currentRow = 0; currentRow < csvRows; currentRow++)
+                    {
+                        char * fieldValue = csvFile[currentRow][field];
+                        if(value == fieldValue)
+                            {
+                                printf("%d\n", currentRow);
+                            }
+                    }
+                    
+                    //return
+                    return EXIT_SUCCESS;
+                }
 
             // temp response
             else
