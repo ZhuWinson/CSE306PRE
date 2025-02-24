@@ -64,7 +64,9 @@ int main(int argc, char * argv[])
             char* value = strtok(buffer, ",");
             while(value != NULL)
                 {
-                    csvFile[r][c] = value;
+                    char* copy = (char*)malloc(sizeof(char)*strlen(value)+1);
+                    strcpy(copy, value);
+                    csvFile[r][c] = copy;
                     value = strtok(NULL, ",");
                     c++;
                 }
