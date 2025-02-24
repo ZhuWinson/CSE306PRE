@@ -64,10 +64,34 @@ int main(int argc, char * argv[])
             char* value = strtok(buffer, ",");
             while(value != NULL)
                 {
-                    char* copy = (char*)malloc(sizeof(char)*strlen(value)+1);
-                    strcpy(copy, value);
-                    csvFile[r][c] = copy;
-                    value = strtok(NULL, ",");
+                    //Check if we are in quotes
+                    int inQuotes = 0;
+                    if(value[0] == '"')
+                        {
+                            inQuotes = 1;
+                            //Give space for a summation of strings
+                            csvFile[r][c] = (char*)malloc(sizeof(char)*80);
+                            //Append all the pieces together and exit when the closing " is found
+                            while(inQuotes == 1)
+                                {
+                                    int length = strlen(value);
+                                    if(value[length-1] == '"')
+                                        {
+                                            inQuotes = 0;
+                                        }
+                                    char* piece = (char*)malloc(sizeof(char)*strlen(value)+1);
+                                    strcpy(piece, value);
+                                    strcat(csvFile[r][c],piece);
+                                    value = strtok(NULL, ",");
+                                }
+                        }
+                    else
+                        {
+                            char* copy = (char*)malloc(sizeof(char)*strlen(value)+1);
+                            strcpy(copy, value);
+                            csvFile[r][c] = copy;
+                            value = strtok(NULL, ",");
+                        }
                     c++;
                 }
             r++;
@@ -186,6 +210,41 @@ int main(int argc, char * argv[])
                     if(numeric == 1)
                         {
                             printf("%d\n", max);
+                            return EXIT_SUCCESS;
+                        }
+                    return EXIT_FAILURE;
+                }
+             // -mean
+             else if (strcmp(argv[i], "-mean") == 0)
+                {
+                    //Move i over to field and set field to the number
+                    i++;
+                    int field = atoi(argv[i]);
+                    //Set a min and a flag to see if numeric data has been encountered
+                    double sum = 0;
+                    int counter = 0;
+                    int numeric = 0;
+                    //Loop through specified field
+                    for(int currentRow = 0; currentRow < csvRows; currentRow++)
+                        {
+                            char* currentValue = csvFile[currentRow][field];
+                            int numValue = atoi(currentValue);
+                            //Check if it is a number
+                            if(numValue == 0 && currentValue[0] != '0')
+                                {
+                                    continue;
+                                }
+                            else
+                                {
+                                    //Set flag for number has been seen
+                                    numeric = 1;
+                                    sum += numValue;
+                                    counter++;
+                                }
+                        }
+                    if(numeric == 1)
+                        {
+                            printf("%f\n", sum/counter);
                             return EXIT_SUCCESS;
                         }
                     return EXIT_FAILURE;
