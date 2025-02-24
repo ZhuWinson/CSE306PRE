@@ -44,11 +44,11 @@ int main(int argc, char * argv[])
         if (csvRows == 1)
             {
             //Split on commas
-            char* value = strtok(buffer, ", ");
+            char* value = strtok(buffer, ",");
             //Count the number of fields
             while(value)
                 {
-                   value = strtok(NULL, ", ");
+                   value = strtok(NULL, ",");
                    csvColumns++;
                 }
             }
@@ -61,11 +61,11 @@ int main(int argc, char * argv[])
     while(fgets(buffer, 1024, file))
         {
             int c = 0;
-            char* value = strtok(buffer, ", ");
+            char* value = strtok(buffer, ",");
             while(value != NULL)
                 {
                     csvFile[r][c] = value;
-                    value = strtok(NULL, ", ");
+                    value = strtok(NULL, ",");
                     c++;
                 }
             r++;
