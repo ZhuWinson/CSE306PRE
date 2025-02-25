@@ -188,17 +188,19 @@ int main(int argc, char * argv[])
                     // increment i to get the field, then again to get the value
                     i++;
                     int field = atoi(argv[i]);
-                    printf("Field = %i", field);
+                    printf("Field = %i\n", field);
                     i++;
                     char * value = argv[i];
-                    printf("Value = %s", value);
+                    printf("Value = %s\n", value);
                     // loop through field
                     // if this field has the value, print it
                     for(int currentRow = 0; currentRow < csvRows; currentRow++)
                     {
                         char * fieldValue = csvFile[currentRow][field];
-                        if(value == fieldValue)
+                        
+                        if(strcmp(value, fieldValue))
                             {
+                                printf("feildValue = %s\n", fieldValue);
                                 printf("%d\n", currentRow);
                             }
                     }
