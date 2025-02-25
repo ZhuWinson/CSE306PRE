@@ -11,3 +11,4 @@ DATE,UBIT,Duration,Activity and Tool Description
 2/24/2025,jeforget,50 minutes,"Began adding -records functionality to csv.c. Starting off without -h. Currently causes a seg fault when you try to run -records, I will look into this once I have more time."
 2/24/2025,winsonzh,1 hour, "Fixed copying code and finished -min and -max without headers using emacs and gdb"
 2/24/2025,winsonzh,1 hour 30 minutes, "Added in dealing with commas in fields and started on -mean flag (no header) with emacs and gdb"
+2/24/2025,morohunf,1 hour, "Created seperate helper functions for -min, -max and -mean flag and edited the csv code to allow it to run all the flags called on the command line before returning."
