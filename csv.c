@@ -103,6 +103,12 @@ int main(int argc, char * argv[])
             r++;
         }
 
+    char* fieldNames[csvColumns];
+    for (int i = 0; i < csvColumns; i++)
+        {
+            fieldNames[i] = csvFile[0][i];
+        }
+       
     if (argc >= 2){
 
         //e.g -min field, -max field, -mean field
