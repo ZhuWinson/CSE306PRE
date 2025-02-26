@@ -80,7 +80,7 @@ int main(int argc, char * argv[])
                             while(inQuotes == 1)
                                 {
                                     int length = strlen(value);
-                                    if(value[length-1] == '"')
+                                    if(value[length-1] == '"' || (value[length-2] == '"' && value[length-1] == '\n'))
                                         {
                                             inQuotes = 0;
                                         }
