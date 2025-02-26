@@ -188,20 +188,25 @@ int main(int argc, char * argv[])
                     // increment i to get the field, then again to get the value
                     i++;
                     int field = atoi(argv[i]);
-                    printf("Field = %i\n", field);
+                    //printf("Field = %i\n", field);
                     i++;
-                    char * value = argv[i];
-                    printf("Value = %s\n", value);
+                    float value = atof(argv[i]);
+                    //printf("Value = %f\n", value);
                     // loop through field
                     // if this field has the value, print it
                     for(int currentRow = 0; currentRow < csvRows; currentRow++)
                     {
-                        char * fieldValue = csvFile[currentRow][field];
+                        float fieldValue = atof(csvFile[currentRow][field]);
                         
-                        if(strcmp(value, fieldValue))
+                        if(value == fieldValue)
                             {
-                                printf("feildValue = %s\n", fieldValue);
-                                printf("%d\n", currentRow);
+                                
+                                //printf("%s\n", csvFile[currentRow][field]);
+                                for(int curr_column = 0; curr_column < csvColumns; curr_column++){
+                                    printf("%s", csvFile[currentRow][curr_column]);
+                                    if(curr_column != csvColumns -1){printf(",");}
+                                }
+                                printf("\r"); // handout whats us to have \r instead of \n ig
                             }
                     }
 
