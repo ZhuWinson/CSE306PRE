@@ -3,8 +3,9 @@
 #include <string.h>
 #include <ctype.h>
 #include <limits.h>
+#include <math.h>
 
-//Note: LEX02 has some help for files
+//Note: COMPILE WITH -lm flag
 
 //Globals for number of rows and columns in csv
 int csvColumns = 0;
@@ -359,9 +360,10 @@ int call_mean(char* csvFile[][csvColumns], char* fieldIndex)
                       counter++;
                   }
           }
+      double result = round((sum/counter)*100)/100;
       if(numeric == 1)
           {
-              printf("%f\n", sum/counter);
+              printf("%f\n", result);
               return EXIT_SUCCESS;
           }
       return EXIT_FAILURE;
