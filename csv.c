@@ -270,13 +270,13 @@ int call_min(char* csvFile[][csvColumns], char* fieldIndex)
 {
      int field = atoi(fieldIndex);
      //Set a min and a flag to see if numeric data has been encountered
-     int min = INT_MAX;
+     double min = INT_MAX;
      int numeric = 0;
      //Loop through specified field
      for(int currentRow = 0; currentRow < csvRows; currentRow++)
          {
              char* currentValue = csvFile[currentRow][field];
-             int numValue = atoi(currentValue);
+             double numValue = atof(currentValue);
              //Check if it is a number
              if(numValue == 0 && currentValue[0] != '0')
                  {
@@ -294,7 +294,7 @@ int call_min(char* csvFile[][csvColumns], char* fieldIndex)
          }
      if(numeric == 1)
          {
-             printf("%d\n", min);
+             printf("%f\n", min);
              return EXIT_SUCCESS;
          }
      return EXIT_FAILURE;
@@ -303,14 +303,14 @@ int call_min(char* csvFile[][csvColumns], char* fieldIndex)
 int call_max(char* csvFile[][csvColumns], char* fieldIndex)
 {
     int field = atoi(fieldIndex);
-    //Set a min and a flag to see if numeric data has been encountered
-    int max = INT_MIN;
+    //Set a max and a flag to see if numeric data has been encountered
+    double max = INT_MIN;
     int numeric = 0;
     //Loop through specified field
     for(int currentRow = 0; currentRow < csvRows; currentRow++)
         {
             char* currentValue = csvFile[currentRow][field];
-            int numValue = atoi(currentValue);
+            double numValue = atof(currentValue);
             //Check if it is a number
             if(numValue == 0 && currentValue[0] != '0')
                 {
@@ -328,7 +328,7 @@ int call_max(char* csvFile[][csvColumns], char* fieldIndex)
         }
     if(numeric == 1)
         {
-            printf("%d\n", max);
+            printf("%f\n", max);
             return EXIT_SUCCESS;
         }
     return EXIT_FAILURE;
@@ -337,7 +337,7 @@ int call_max(char* csvFile[][csvColumns], char* fieldIndex)
 int call_mean(char* csvFile[][csvColumns], char* fieldIndex)
 {
       int field = atoi(fieldIndex);
-      //Set a min and a flag to see if numeric data has been encountered
+      //Set a sum and a flag to see if numeric data has been encountered
       double sum = 0;
       int counter = 0;
       int numeric = 0;
@@ -345,7 +345,7 @@ int call_mean(char* csvFile[][csvColumns], char* fieldIndex)
       for(int currentRow = 0; currentRow < csvRows; currentRow++)
           {
               char* currentValue = csvFile[currentRow][field];
-              int numValue = atoi(currentValue);
+              double numValue = atof(currentValue);
               //Check if it is a number
               if(numValue == 0 && currentValue[0] != '0')
                   {
