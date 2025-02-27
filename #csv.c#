@@ -12,7 +12,7 @@ int csvColumns = 0;
 int csvRows = 0;
 
 //void call_h(FILE *file, char *targetField);
-int call_h(char* csvFile[][csvColumns], char* flag, char* field, char* recordValue, char* fieldname[]);
+int call_h(char* csvFile[][csvColumns], char* flag, char* field, char* recordValue, char* fieldname[csvColumns]);
 
 int call_min(char* csvFile[][csvColumns], int fieldIndex);
 int call_max(char* csvFile[][csvColumns], int fieldIndex);
@@ -132,7 +132,7 @@ int main(int argc, char * argv[])
             }
 
                 // -h
-            else if (strcmp(argv[i], "-h") == 0){
+            if (strcmp(argv[i], "-h") == 0){
                 //If user inputs the (the numeric positional option) of field instead of the (title of the corresponding field)
                 //Function should return EXIT_FAILURE
                 //isdigit() checks if a string can be converted into an integer
@@ -145,7 +145,7 @@ int main(int argc, char * argv[])
 
                 h_called = 1;
 
-                if (isdigit(atoi(argv[i + 2])) || (i + 2 >= argc-1)){
+                if (!isdigit(atoi(argv[i + 2])) || (i + 2 >= argc-1)){
                     return EXIT_FAILURE;
                 }
 
@@ -153,14 +153,14 @@ int main(int argc, char * argv[])
 
                 if (strcmp(argv[i+1], "-r") == 0)
                 {
-                    result = call_h(csvFile, argv[i+1], "all", "none", fieldNames);
+                    result = call_h(csvFile, argv[i+1], "all", fieldNames);
 
                     // i  i+1  i+2
                     //-h  -r   -f
                     i+=2;
                 }
                 else{
-                    result = call_h(csvFile, argv[i+1], argv[i+2], "none", fieldNames);
+                    result = call_h(csvFile, argv[i+1], argv[i+2], fieldNames);
 
                     // i    i+1   i+2   i+3
                     //-h  -mean  field  -f
@@ -175,12 +175,12 @@ int main(int argc, char * argv[])
 
             // -r
             else if ( strcmp(argv[i], "-r") == 0){
-                if (h_called == 1)
+                if (call_h == 1)
                 {
                     printf("%d\n", csvRows+1);
                 }
                 else{
-                    printf("%d\n", csvRows);
+                    printf("%d\n", csvRows);   
                 }
                 i++;
             }
@@ -192,11 +192,11 @@ int main(int argc, char * argv[])
                     if(h_called == 1)
                     {
                         result = call_h(csvFile, argv[i], argv[i+1], "none", fieldNames);
-                    }
+                    } 
                     else{
                         result = call_min(csvFile, atoi(argv[i+1]));
                     }
-
+                   
                    if (result == EXIT_FAILURE)
                    {
                     return EXIT_FAILURE;
@@ -214,11 +214,11 @@ int main(int argc, char * argv[])
                     {
                         result = call_h(csvFile, argv[i], argv[i+1], "none", fieldNames);
                     }
-                    else{
+                    else{ 
                         result = call_max(csvFile, atoi(argv[i+1]));
                     }
 
-
+                    
                     if (result == EXIT_FAILURE)
                     {
                         return EXIT_FAILURE;
@@ -235,7 +235,7 @@ int main(int argc, char * argv[])
                     if(h_called == 1)
                     {
                         result = call_h(csvFile, argv[i], argv[i+1], "none", fieldNames);
-                    }
+                    } 
                     else{
                          result = call_mean(csvFile, atoi(argv[i+1]));
                     }
@@ -264,10 +264,10 @@ int main(int argc, char * argv[])
                     }
 
                     if (result == EXIT_FAILURE){
-                        return EXIT_FAILURE;
+                        return EXIT_FAILURE; 
                     }
 
-                    //     i        i+1    i+2     i+3
+                    //     i        i+1    i+2     i+3 
                     // -records    field  value     -f
                     i += 3;
 
@@ -329,15 +329,13 @@ int main(int argc, char * argv[])
 //     }
 // }
 
-int call_h(char* csvFile[][csvColumns], char* flag, char* field, char* recordValue, char* fieldname[])
+int call_h(char* csvFile[][csvColumns], char* flag, char* field, char* recordValue, char* fieldname[csvColumns])
 {
-    //traverse the fieldName list to find the index of the that matches the field
-    //argument and use that index to call the other helper functions
     for (int i = 0; i < csvColumns; i++)
     {
         if (strcmp(fieldname[i],  field) == 0)
         {
-            if (strcmp(flag, "-min") == 0)
+            if (strcmp(flag, "-min"))
             {
                 return call_min(csvFile, i);
             }
@@ -431,7 +429,7 @@ int call_max(char* csvFile[][csvColumns], int field)
 
 int call_mean(char* csvFile[][csvColumns], int field)
 {
-      //int field = atoi(fieldIndex);
+      int field = atoi(fieldIndex);
       //Set a sum and a flag to see if numeric data has been encountered
       double sum = 0;
       int counter = 0;
