@@ -1,0 +1,6 @@
+DATE,UBIT,Duration,Activity and Tool Description
+2/16/2025,jeforget,1 hour,"Set up basic functionality of -f flag. Added an else that will catch undefined behavior. I also modified the activity file to format it a bit differently."
+2/23/2025,jeforget,20 minutes,"Looked over csv.c, tested in gdb and chnaged line 98 of csv.c to fix an error where a char * was being passed when an int was needed."
+2/24/2025,jeforget,50 minutes,"Began adding -records functionality to csv.c. Starting off without -h. Currently causes a seg fault when you try to run -records, I will look into this once I have more time."
+2/25/2025,jeforget,30 minutes,"Worked through fixing -records. I was comparing the values incorrectly which was causing some bugs. Rn it just prints a bunch of values but that's better than a seg fault."
+2/26/2025,jeforget,40 minutes,"Worked on fixing -records, tested with multiple csv files. -records now outputs what it's supposed to, and doesn't seg fault on the given test csv file. For some reason it seg faults on other csv files though."

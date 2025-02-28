@@ -18,3 +18,4 @@ DATE,UBIT,Duration,Activity and Tool Description
 2/26/2025,morohunf,30 mins,"Created a list of strings for the fieldNames which we could use with writing the code for -h flag. Tried making sure the list was correct with gdb but for some reason was unable to so resulted with using print statement."
 2/26/2025,morohunf,3 hours 30 minutes, "Finished the helper function for -h flag (call_h) and help up function calls for all other flags in call_h. Also set up a helper function for the -records. Used gdb to debug the code and find any stray faults/bugs"
 2/26/2025,marieleo,3 hours 30 minutes, "Finished the helper function for -h flag (call_h) and help up function calls for all other flags in call_h. Also set up a helper function for the -records. Used gdb to debug the code and find any stray faults/bugs"
+2/28/2025,morohunf,10 minutes, "Created an activity csv file for each group member and copied their activity log from the activity.csv file."

@@ -1,0 +1,5 @@
+DATE,UBIT,Duration,Activity and Tool Description
+2/19/2025,marieleo,1 hour 40 minutes, "Set up helper function for -h flag. Main includes checking for -h and then calling it."
+2/26/2025,marieleo,3 hours 30 minutes, "Finished the helper function for -h flag (call_h) and help up function calls for all other flags in call_h. Also set up a helper function for the -records. Used gdb to debug the code and find any stray faults/bugs"
+
+
