@@ -157,13 +157,20 @@ int main(int argc, char * argv[])
 
                     // i  i+1  i+2
                     //-h  -r   -f
+                    //if it's records then don't try to continue
+                    if(strcmp(argv[i+2], "-records")==0){return EXIT_SUCCESS;}
                     i+=2;
                 }
                 else{
-                    result = call_h(csvFile, argv[i+1], argv[i+2], "none", fieldNames);
+                    //printf("enter\n");
+                    result = call_h(csvFile, argv[i+1], argv[i+2], argv[i+3], fieldNames);
+                    //printf("exit\n");
 
                     // i    i+1   i+2   i+3
                     //-h  -mean  field  -f
+
+                    //if it's records then don't try to continue
+                    if(strcmp(argv[i+1], "-records")==0){return EXIT_SUCCESS;}
                     i+=3;
                 }
 
@@ -250,13 +257,14 @@ int main(int argc, char * argv[])
                     i+=2;
                 }
             // -records field value
-            // for now this is WITHOUT -h
-            //currently causing a seg fault somewhere!
+
             else if (strcmp(argv[i], "-records") == 0)
                 {
+                    
                     int result = 0;
                     if (h_called == 1)
                     {
+                        //printf("argv[i+2 = %s]\n", argv[i+2]);
                         result = call_h(csvFile, argv[i], argv[i+1], argv[i+2], fieldNames);
                     }
                     else{
@@ -276,11 +284,6 @@ int main(int argc, char * argv[])
                 }
 
             // temp response
-            else
-            {
-                printf("Undefined\n");
-                return EXIT_FAILURE;
-            }
 
             //i++;
             }
@@ -335,6 +338,28 @@ int call_h(char* csvFile[][csvColumns], char* flag, char* field, char* recordVal
     //argument and use that index to call the other helper functions
     for (int i = 0; i < csvColumns; i++)
     {
+        // "Value", aka the last field has a \r\n slapped onto the back of it
+        // With some funky C pointer magic it can be removed
+        // But only the last feild has this issue, so we'll need to make sure we only do that if we're at the last field
+        
+        char * f_name;
+
+        // if this is the last field, fix the string
+        if(i == (csvColumns-1)){
+            f_name = fieldname[i];
+            // Find the tab character and replace it with a null terminator
+            for (int i = 0; f_name[i] != '\0'; i++) {
+                if (f_name[i] == '\r') {
+                    f_name[i] = '\0';
+                    break;
+                }
+            }
+        }
+        // if not, leave it alone
+        else{
+            f_name = fieldname[i];
+        }
+        
         if (strcmp(fieldname[i],  field) == 0)
         {
             if (strcmp(flag, "-min") == 0)
@@ -355,10 +380,15 @@ int call_h(char* csvFile[][csvColumns], char* flag, char* field, char* recordVal
                 return EXIT_SUCCESS;
             }else if (strcmp(flag, "-records") == 0)
             {
+                //printf("index = %d\n", i);
+                //printf("record value = %f\n", atof(recordValue));
                 return call_records(csvFile, i, recordValue);
             }
         }
     }
+
+    // if the for loop is exited it means none of the conditionals caught, which means there is some kind of issue
+    return EXIT_FAILURE;
 }
 
 int call_min(char* csvFile[][csvColumns], int field)
@@ -389,7 +419,7 @@ int call_min(char* csvFile[][csvColumns], int field)
          }
      if(numeric == 1)
          {
-             printf("%f\n", min);
+             printf("%.2f\n", min);
              return EXIT_SUCCESS;
          }
      return EXIT_FAILURE;
@@ -423,7 +453,7 @@ int call_max(char* csvFile[][csvColumns], int field)
         }
     if(numeric == 1)
         {
-            printf("%f\n", max);
+            printf("%.2f\n", max);
             return EXIT_SUCCESS;
         }
     return EXIT_FAILURE;
@@ -457,7 +487,7 @@ int call_mean(char* csvFile[][csvColumns], int field)
       double result = round((sum/counter)*100)/100;
       if(numeric == 1)
           {
-              printf("%f\n", result);
+              printf("%.2f\n", result);
               return EXIT_SUCCESS;
           }
       return EXIT_FAILURE;
@@ -484,5 +514,5 @@ int call_records(char* csvFile[][csvColumns], int field, char* Value)
                  printf("\r"); // handout whats us to have \r instead of \n ig
              }
      }
-
+     return EXIT_SUCCESS;
 }
