@@ -143,22 +143,27 @@ int main(int argc, char * argv[])
                 // call_h(file, argv[i + 1]); //(file & fieldname)
                 // fclose(file);
 
+                //printf("argv[i] = %s\n", argv[i]);
+                //printf("argv[i+1] = %s\n", argv[i + 1]);
+                //printf("argv[i+2] = %s\n", argv[i + 2]);
+
                 h_called = 1;
 
-                if (isdigit(atoi(argv[i + 2])) || (i + 2 >= argc-1)){
-                    return EXIT_FAILURE;
-                }
+                //if (isdigit(atoi(argv[i + 2])) || (i + 2 >= argc-1)){
+                //    return EXIT_FAILURE;
+                //}
 
                 int result = 0;
 
                 if (strcmp(argv[i+1], "-r") == 0)
                 {
+                    //printf("enter -r from -h\n");
                     result = call_h(csvFile, argv[i+1], "all", "none", fieldNames);
 
                     // i  i+1  i+2
                     //-h  -r   -f
                     //if it's records then don't try to continue
-                    if(strcmp(argv[i+2], "-records")==0){return EXIT_SUCCESS;}
+                    if((strcmp(argv[i+2], "-records") || strcmp(argv[i+1], "-r")==0)==0){return EXIT_SUCCESS;}
                     i+=2;
                 }
                 else{
@@ -182,6 +187,7 @@ int main(int argc, char * argv[])
 
             // -r
             else if ( strcmp(argv[i], "-r") == 0){
+                //printf("enter -r\n");
                 if (h_called == 1)
                 {
                     printf("%d\n", csvRows+1);
@@ -334,6 +340,13 @@ int main(int argc, char * argv[])
 
 int call_h(char* csvFile[][csvColumns], char* flag, char* field, char* recordValue, char* fieldname[])
 {
+    //just doing the -r logic here bc it's so simple
+    if (strcmp(flag, "-r") == 0)
+    {
+        printf("%d\n", csvRows-1);
+        return EXIT_SUCCESS;
+    }
+    
     //traverse the fieldName list to find the index of the that matches the field
     //argument and use that index to call the other helper functions
     for (int i = 0; i < csvColumns; i++)
@@ -376,6 +389,7 @@ int call_h(char* csvFile[][csvColumns], char* flag, char* field, char* recordVal
             }
             else if (strcmp(flag, "-r") == 0)
             {
+                //printf("in in -r\n");
                 printf("%d\n", csvRows+1);
                 return EXIT_SUCCESS;
             }else if (strcmp(flag, "-records") == 0)
